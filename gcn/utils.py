@@ -8,9 +8,15 @@ import sys
 
 def parse_index_file(filename):
     """Parse index file."""
-    index = []
-    for line in open(filename):
-        index.append(int(line.strip()))
+    if "mydata" in filename:
+        print("filename: ", filename)
+        with open(filename, "rb") as f:
+            index = pkl.load(f)
+    else:
+        index = []
+        for line in open(filename):
+            index.append(int(line.strip()))
+    
     return index
 
 
@@ -41,13 +47,19 @@ def load_data(dataset_str):
     :param dataset_str: Dataset name
     :return: All data input files loaded (as well the training/test data).
     """
+ 
     names = ['x', 'y', 'tx', 'ty', 'allx', 'ally', 'graph']
     objects = []
     for i in range(len(names)):
         with open("data/ind.{}.{}".format(dataset_str, names[i]), 'rb') as f:
-            if sys.version_info > (3, 0):
-                objects.append(pkl.load(f, encoding='latin1'))
+			if dataset_str == "mydata":
+				#objects.append(pkl.load(f))
+				print("mydata")
+            elif sys.version_info > (3, 0):
+                print("inte mydata", 2)
+                #objects.append(pkl.load(f, encoding='latin1'))
             else:
+            	print("inte mydata", 3)
                 objects.append(pkl.load(f))
 
     x, y, tx, ty, allx, ally, graph = tuple(objects)
