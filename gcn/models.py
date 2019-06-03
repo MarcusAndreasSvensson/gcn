@@ -1,5 +1,6 @@
 from gcn.layers import *
 from gcn.metrics import *
+import metrics
 
 flags = tf.app.flags
 FLAGS = flags.FLAGS
@@ -149,11 +150,11 @@ class GCN(Model):
             self.loss += FLAGS.weight_decay * tf.nn.l2_loss(var)
 
         # Cross entropy error
-        # self.loss += masked_softmax_cross_entropy(self.outputs, self.placeholders['labels'],
-        #                                           self.placeholders['labels_mask'])
+        self.loss += metrics.masked_softmax_cross_entropy(self.outputs, self.placeholders['labels'],
+                                                  self.placeholders['labels_mask'])
 
         # Mean Squared Error loss
-        self.loss += mean_squared_error(self.outputs, self.placeholders['labels'])
+        # self.loss += metrics.mean_squared_error(self.outputs, self.placeholders['labels'])
 
     def _accuracy(self):
         self.accuracy = masked_accuracy(self.outputs, self.placeholders['labels'],
