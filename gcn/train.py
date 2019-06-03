@@ -8,6 +8,7 @@ from gcn.utils import *
 from gcn.models import GCN, MLP
 import utils
 
+
 # Set random seed
 seed = 123
 np.random.seed(seed)
@@ -106,3 +107,14 @@ print("Optimization Finished!")
 test_cost, test_acc, test_duration = evaluate(features, support, y_test, test_mask, placeholders)
 print("Test set results:", "cost=", "{:.5f}".format(test_cost),
       "accuracy=", "{:.5f}".format(test_acc), "time=", "{:.5f}".format(test_duration))
+
+
+# Set a name for TensorBoard
+NAME = f"45x220-gcn-{int(time.time())}"
+
+scalar = tf.summary.scalar("loss", cost)
+#histogram = tf.summary.histogram()
+summary = tf.summary.merge_all(sess.graph, scalar)
+file_writer = tf.summary.FileWriter(f"logs/{NAME}", sess.graph)
+
+#tensorboard = tf.TensorBoard(logdir=f"logs/{NAME}")

@@ -18,3 +18,9 @@ def masked_accuracy(preds, labels, mask):
     mask /= tf.reduce_mean(mask)
     accuracy_all *= mask
     return tf.reduce_mean(accuracy_all)
+
+def mean_squared_error(preds, labels):
+    """Mean squared error loss without masking"""
+    loss = tf.metrics.mean_squared_error(labels, preds)
+
+    return tf.reduce_mean(loss)

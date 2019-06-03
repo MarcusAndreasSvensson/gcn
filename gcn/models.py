@@ -149,8 +149,11 @@ class GCN(Model):
             self.loss += FLAGS.weight_decay * tf.nn.l2_loss(var)
 
         # Cross entropy error
-        self.loss += masked_softmax_cross_entropy(self.outputs, self.placeholders['labels'],
-                                                  self.placeholders['labels_mask'])
+        # self.loss += masked_softmax_cross_entropy(self.outputs, self.placeholders['labels'],
+        #                                           self.placeholders['labels_mask'])
+
+        # Mean Squared Error loss
+        self.loss += mean_squared_error(self.outputs, self.placeholders['labels'])
 
     def _accuracy(self):
         self.accuracy = masked_accuracy(self.outputs, self.placeholders['labels'],
@@ -175,3 +178,4 @@ class GCN(Model):
 
     def predict(self):
         return tf.nn.softmax(self.outputs)
+        # return tf.keras.activations.linear(self.outputs)
