@@ -8,22 +8,24 @@ import sys
 
 def parse_index_file(filename):
     """Parse index file."""
-    if "mydata" in filename:
-        print("filename: ", filename)
-        with open(filename, "rb") as f:
-            index = pkl.load(f)
-    else:
-        index = []
-        for line in open(filename):
-            index.append(int(line.strip()))
+    index = []
+    for line in open(filename):
+        index.append(int(line.strip()))
     
     return index
 
 
 def sample_mask(idx, l):
     """Create mask."""
+    # print("idx: ", idx)
+    # print("l: ", l)
     mask = np.zeros(l)
+    # print("mask.shape: ", mask.shape)
+    # print("mask: ", mask)
     mask[idx] = 1
+    #print("mask[idx]: ", mask[idx])
+    # print("mask: ", mask)
+    # print()
     return np.array(mask, dtype=np.bool)
 
 
@@ -52,14 +54,9 @@ def load_data(dataset_str):
     objects = []
     for i in range(len(names)):
         with open("data/ind.{}.{}".format(dataset_str, names[i]), 'rb') as f:
-			if dataset_str == "mydata":
-				#objects.append(pkl.load(f))
-				print("mydata")
-            elif sys.version_info > (3, 0):
-                print("inte mydata", 2)
-                #objects.append(pkl.load(f, encoding='latin1'))
+            if sys.version_info > (3, 0):
+                objects.append(pkl.load(f, encoding='latin1'))
             else:
-            	print("inte mydata", 3)
                 objects.append(pkl.load(f))
 
     x, y, tx, ty, allx, ally, graph = tuple(objects)
@@ -86,7 +83,7 @@ def load_data(dataset_str):
 
     idx_test = test_idx_range.tolist()
     idx_train = range(len(y))
-    idx_val = range(len(y), len(y)+500)
+    idx_val = range(len(y), len(y)+100)
 
     train_mask = sample_mask(idx_train, labels.shape[0])
     val_mask = sample_mask(idx_val, labels.shape[0])
