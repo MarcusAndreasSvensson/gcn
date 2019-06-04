@@ -1,11 +1,12 @@
-from __future__ import division
-from __future__ import print_function
+# from __future__ import division
+# from __future__ import print_function
 
 import time
 import tensorflow as tf
 
 from gcn.utils import *
-from gcn.models import GCN, MLP
+# from gcn.models import GCN, MLP
+import models
 import utils
 
 
@@ -19,10 +20,10 @@ flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_string('dataset', 'mydata', 'Dataset string.')  # 'cora', 'citeseer', 'pubmed', 'mydata'
 flags.DEFINE_string('model', 'gcn', 'Model string.')  # 'gcn', 'gcn_cheby', 'dense'
-flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
-flags.DEFINE_integer('epochs', 100, 'Number of epochs to train.')
-flags.DEFINE_integer('hidden1', 16, 'Number of units in hidden layer 1.')
-flags.DEFINE_float('dropout', 0.5, 'Dropout rate (1 - keep probability).')
+flags.DEFINE_float('learning_rate', 0.05, 'Initial learning rate.')  # 0.01
+flags.DEFINE_integer('epochs', 2000, 'Number of epochs to train.')
+flags.DEFINE_integer('hidden1', 16, 'Number of units in hidden layer 1.')  # 16
+flags.DEFINE_float('dropout', 0.1, 'Dropout rate (1 - keep probability).')  # 0.5
 flags.DEFINE_float('weight_decay', 5e-4, 'Weight for L2 loss on embedding matrix.')
 flags.DEFINE_integer('early_stopping', 10, 'Tolerance for early stopping (# of epochs).')
 flags.DEFINE_integer('max_degree', 3, 'Maximum Chebyshev polynomial degree.')
@@ -35,15 +36,15 @@ features = preprocess_features(features)
 if FLAGS.model == 'gcn':
     support = [preprocess_adj(adj)]
     num_supports = 1
-    model_func = GCN
+    model_func = models.GCN
 elif FLAGS.model == 'gcn_cheby':
     support = chebyshev_polynomials(adj, FLAGS.max_degree)
     num_supports = 1 + FLAGS.max_degree
-    model_func = GCN
+    model_func = models.GCN
 elif FLAGS.model == 'dense':
     support = [preprocess_adj(adj)]  # Not used
     num_supports = 1
-    model_func = MLP
+    model_func = models.MLP
 else:
     raise ValueError('Invalid argument for model: ' + str(FLAGS.model))
 

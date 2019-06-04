@@ -21,6 +21,7 @@ def masked_accuracy(preds, labels, mask):
 
 def mean_squared_error(preds, labels):
     """Mean squared error loss without masking"""
-    loss = tf.metrics.mean_squared_error(labels, preds)
+    loss = tf.losses.mean_squared_error(labels=labels, predictions=preds)
 
+    # return loss
     return tf.reduce_mean(loss)
