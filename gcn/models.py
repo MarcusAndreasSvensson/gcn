@@ -205,4 +205,4 @@ class GCN(Model):
     def predict(self):
         # return tf.nn.softmax(self.outputs)
         # return tf.keras.activations.linear(self.outputs)
-        return self.outputs
+        return tf.identity(self.outputs)
