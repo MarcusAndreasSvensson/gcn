@@ -18,14 +18,17 @@ tf.set_random_seed(seed)
 # Settings
 flags = tf.app.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_string('dataset', 'mydata', 'Dataset string.')  # 'cora', 'citeseer', 'pubmed', 'mydata'
+flags.DEFINE_string('dataset', '45x220', 'Dataset string.')  # 'cora', 'citeseer', 'pubmed', 'mydata', "45x220"
 flags.DEFINE_string('model', 'gcn', 'Model string.')  # 'gcn', 'gcn_cheby', 'dense'
-flags.DEFINE_float('learning_rate', 0.05, 'Initial learning rate.')  # 0.01
+flags.DEFINE_float('learning_rate', 0.1, 'Initial learning rate.')  # 0.01
 flags.DEFINE_integer('epochs', 2000, 'Number of epochs to train.')
-flags.DEFINE_integer('hidden1', 16, 'Number of units in hidden layer 1.')  # 16
+flags.DEFINE_integer('hidden1', 50, 'Number of units in hidden layer 1.')  # 16
+flags.DEFINE_integer('hidden2', 50, 'Number of units in hidden layer 2.')  # 16
+flags.DEFINE_integer('hidden3', 50, 'Number of units in hidden layer 3.')  # 16
+flags.DEFINE_integer('hidden4', 50, 'Number of units in hidden layer 4.')  # 16
 flags.DEFINE_float('dropout', 0.1, 'Dropout rate (1 - keep probability).')  # 0.5
 flags.DEFINE_float('weight_decay', 5e-4, 'Weight for L2 loss on embedding matrix.')
-flags.DEFINE_integer('early_stopping', 10, 'Tolerance for early stopping (# of epochs).')
+flags.DEFINE_integer('early_stopping', 10000, 'Tolerance for early stopping (# of epochs).')
 flags.DEFINE_integer('max_degree', 3, 'Maximum Chebyshev polynomial degree.')
 
 # Load data
