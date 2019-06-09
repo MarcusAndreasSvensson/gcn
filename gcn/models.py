@@ -166,6 +166,7 @@ class GCN(Model):
 
     def _build(self):
 
+        print(self.input_dim)
         self.layers.append(GraphConvolution(input_dim=self.input_dim,
                                             output_dim=FLAGS.hidden1,
                                             placeholders=self.placeholders,
